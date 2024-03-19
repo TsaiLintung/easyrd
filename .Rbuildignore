@@ -1,3 +1,7 @@
-^simplerd\.Rproj$
+^.git$
+^.*\.Rproj$
 ^\.Rproj\.user$
-^LICENSE\.md$
+^\.Rproj\.user$
+^development
+
+^\.github$
