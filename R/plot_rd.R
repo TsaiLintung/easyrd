@@ -1,12 +1,15 @@
+plot_rd <- function(dt, result, bin_bw, p){
+  
+  rdbwselect
+  
+}
 
-
-plot_rd_base <- function(dt, outcol, bin_bw, line_bw, p){
+get_rd_source <- function(dt, outcol, bin_bw, line_bw, p){
 
   #get the setting from p
   running <- p$running
   cutoff <- p$cutoff
   order <- p$order
-
 
   #default values
   if(is.null(order)){order <- 1}
@@ -15,7 +18,7 @@ plot_rd_base <- function(dt, outcol, bin_bw, line_bw, p){
   outcome <- dt[, get(outcol)]
 
   #get the rd plot
-  rdp <- tryCatch(rdplot(outcome, rv, c = cutoff, p = order, kernel = "triangular", h = line_bw),
+  rdp <- tryCatch(rdplot(outcome, rv, c = cutoff, p = order, kernel = "triangular", h = line_bw, hide = TRUE),
                          error = function(e){
                            message("rd plot failed with: ", e)
                            return(NULL)
@@ -29,13 +32,23 @@ plot_rd_base <- function(dt, outcol, bin_bw, line_bw, p){
 
     line <- data.table(x = rdp$vars_poly$rdplot_x,
                        y = rdp$vars_poly$rdplot_y)
-    line <- rbind(line[x > cutoff][x == max(x) | x == min(x)],
-                  line[x < cutoff][x == max(x) | x == min(x)]) #only need the tip si linear
-    result <- list(bin = bin, line = line)
+    rline <- line[x > cutoff][x == max(x) | x == min(x)]
+    lline <- line[x < cutoff][x == max(x) | x == min(x)]
+    result <- list(bin = bin, rline = rline, lline = lline)
   } else {
     result <- list(bin = NA, line = NA)
   }
 
   return(result)
 
+}
+
+draw_rd <- function(result){
+  bin <- result$bin
+  lline <- result$lline
+  rline <- result$rline
+  plot <- ggplot() + geom_point(aes(x = x, y = y), data = bin) + 
+    geom_line(aes(x = x, y = y), data = lline) +
+    geom_line(aes(x = x, y = y), data = rline) 
+  return(plot)
 }

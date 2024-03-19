@@ -18,4 +18,4 @@ rd_result <- run_rd(dt, p)
 alt_result <- alt_rd(dt, p, "bandwidth", c(0.1, 0.2))
 alt_result <- alt_rd(dt, p, "subgroup", c("x1>0.2"))
 
-plot_rd_base(dt, "y", 0.3, 0.2, p)
+result <- get_rd_source(dt, "y", 0.3, 0.2, p)
