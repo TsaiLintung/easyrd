@@ -11,6 +11,7 @@ roxygenise()
 
 load_all()
 
+run_test_dir()
 
 build()
 

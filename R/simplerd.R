@@ -8,7 +8,7 @@
 #' @param alt_type A string that specifies the type of alternative analysis to be conducted. Valid types are NULL (defaults to "main"), "subsample", and "donut". This argument determines how the data is manipulated before analysis.
 #' @param values A vector of values corresponding to the alt_type specification. These are used to modify the dataset or parameters based on the type of RD analysis being conducted.
 #' @param result_type A character vector indicating the types of results to return. The default is c("estimate", "plot"), meaning both estimates and plots will be generated. Can also include "plot_source" for the plot data.
-#' @param verbose A boolean flag indicating whether to print messages for each result produced. Defaults to TRUE.
+#' @param verbose A boolean flag indicating whether to print messages for each result produced. Defaults to FALSE
 #' @param ... Additional arguments passed to the estimation function est_rd.
 #'
 #' @return A list containing the analysis results. This includes 'estimate' (data.table of estimates), 'plot_source' (list of data for plots), and 'plot' (list of generated plots), depending on the specified result_type.
@@ -26,7 +26,7 @@ simplerd <- function(data, p,
                      alt_type = NULL,
                      values = c(),
                      result_type = c("estimate", "plot"),
-                     verbose = TRUE, ...){
+                     verbose = FALSE, ...){
 
   #if just the main result
   if(is.null(alt_type)){
@@ -36,7 +36,7 @@ simplerd <- function(data, p,
 
   #multiple spec
   estimates <- data.table()
-  plot_sources <- list()
+  plot_sources <- data.table()
   plots <- list()
   outcomes <- p$outcomes
   for(value in values){
@@ -70,16 +70,14 @@ simplerd <- function(data, p,
 
         #source for rdplot
         plot_source <- plot_rd_source(dts, p, outcol)
-        plot_source$type <- alt_type
-        plot_source$value <- value
-        plot_source$outcome <- outcol
+        plot_source[, `:=`(type = alt_type, value = value, outcome = outcol)]
 
         if("plot_source" %in% result_type){
-          plot_sources[[outcol]] <- plot_source
+          plot_sources <- plot_sources |> rbind(plot_source)
         }
 
         if("plot" %in% result_type){
-          plot <- plot_rd_draw(plot_source)
+          plot <- plot_rd(plot_source)
           plots[[outcol]] <- plot
         }
 

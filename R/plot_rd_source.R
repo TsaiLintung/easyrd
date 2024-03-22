@@ -28,12 +28,16 @@ plot_rd_source <- function(dt, p, outcol){
     bin <- data.table(x = rdp$vars_bins$rdplot_mean_x,
                       y = rdp$vars_bins$rdplot_mean_y)
     bin <- bin[x > p$cutoff - bbw & x < p$cutoff + bbw]
+    bin[, part := "bin"]
 
     line <- data.table(x = rdp$vars_poly$rdplot_x,
                        y = rdp$vars_poly$rdplot_y)
     rline <- line[x > p$cutoff][x == max(x) | x == min(x)]
+    rline[, part := "r"]
     lline <- line[x < p$cutoff][x == max(x) | x == min(x)]
-    result <- list(bin = bin, rline = rline, lline = lline, outcome = outcol, running = p$running)
+    lline[, part := "l"]
+
+    result <- rbindlist(list(bin, rline, lline))
   } else {
     warning("fails to produce plot for ", outcol)
     return(NULL)

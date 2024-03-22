@@ -24,3 +24,8 @@ rd_result$plot$y2
 
 alt_result <- simplerd(dt, p, "bandwidth", c(0.1, 0.2), result_type = "estimate")
 alt_result2 <- simplerd(dt, p, "subsample", c("TRUE", "x1>0.2"))
+
+rd_result <- simplerd(dt, p, result_type = "plot_source")
+plot_rd_draw(rd_result$plot_source$y)
+
+rd_result$plot$y

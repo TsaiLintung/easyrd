@@ -2,48 +2,42 @@
 % Please edit documentation in R/simplerd.R
 \name{simplerd}
 \alias{simplerd}
-\title{Simplified Regression Discontinuity Analysis}
+\title{Simple RD Analysis}
 \usage{
 simplerd(
-  dt,
+  data,
   p,
-  type = NULL,
+  alt_type = NULL,
   values = c(),
-  results = c("estimate", "plot"),
-  verbose = TRUE,
+  result_type = c("estimate", "plot"),
+  verbose = FALSE,
   ...
 )
 }
 \arguments{
-\item{dt}{A data.table object containing the data for analysis.}
+\item{data}{A data.table containing the data for RD analysis.}
 
-\item{p}{A list of parameters for the regression discontinuity analysis, which may include
-order, vce (variance-covariance estimator), est (estimation method), outcomes, running variable,
-and cutoff for the donut type.}
+\item{p}{A list containing parameters for the RD analysis, typically including outcomes and other necessary information.}
 
-\item{type}{A character string specifying the type of analysis to perform.
-Supported values are NULL (for main analysis), "subsample", or "donut". Default is NULL.}
+\item{alt_type}{A string that specifies the type of alternative analysis to be conducted. Valid types are NULL (defaults to "main"), "subsample", and "donut". This argument determines how the data is manipulated before analysis.}
 
-\item{values}{A vector of values specific to the type of analysis. For "subsample" and "donut",
-these values define the subsets of data to be used. Default is an empty vector.}
+\item{values}{A vector of values corresponding to the alt_type specification. These are used to modify the dataset or parameters based on the type of RD analysis being conducted.}
 
-\item{results}{A vector indicating what results to return. Possible values are "estimate" and "plot".
-Default is c("estimate", "plot").}
+\item{result_type}{A character vector indicating the types of results to return. The default is c("estimate", "plot"), meaning both estimates and plots will be generated. Can also include "plot_source" for the plot data.}
 
-\item{verbose}{A logical value indicating whether to print detailed messages. Default is TRUE.}
+\item{verbose}{A boolean flag indicating whether to print messages for each result produced. Defaults to FALSE}
 
-\item{...}{Additional arguments passed to the estimating and plotting functions.}
+\item{...}{Additional arguments passed to the estimation function est_rd.}
 }
 \value{
-A list containing three elements: 'estimate' (a data.table of estimates for each outcome),
-'plot_source' (a list of data sources for each plot), and 'plot' (a list of ggplot objects for each outcome).
+A list containing the analysis results. This includes 'estimate' (data.table of estimates), 'plot_source' (list of data for plots), and 'plot' (list of generated plots), depending on the specified result_type.
 }
 \description{
-This function performs a simplified regression discontinuity analysis based on
-specified parameters and data. It supports main, subsample, and donut types of analyses.
-It returns estimates, plot sources, and plots for each outcome.
+This function simplifies regression discontinuity (RD) analysis results by providing estimates and plots based on the specified alternative specifications and values.
+It allows for different types of RD analyses including main, subsample, and donut approaches.
 }
 \examples{
-# Assuming 'dt' is your data.table and 'params' is your list of RD parameters:
-result <- simplerd(dt, params)
+# Assuming dt is your data.table and p is your parameter list:
+results <- simplerd(dt, p, alt_type = "subsample", values = c("group1", "group2"))
+
 }
