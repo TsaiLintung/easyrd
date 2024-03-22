@@ -4,7 +4,13 @@ library(devtools)
 library(tinytest)
 library(roxygen2)
 
-load_all()
+rm(list = ls())
 
 roxygenise()
+
+
+load_all()
+
+
 build()
+
