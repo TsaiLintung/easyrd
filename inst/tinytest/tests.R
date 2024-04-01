@@ -22,6 +22,14 @@ expect_true("plot" %in% names(results))
 results <- simplerd(dt, p, alt_type = "subsample", values = c("x1>0", "x1<=0"))
 expect_equal(nrow(results$estimate), 4) #2 outcome * 2 specs
 expect_equal(results$estimate$type, rep("subsample", nrow(results$estimate)))
+expect_true(results$estimate[outcome == "y2" & value == "x1<=0", coef] != results$estimate[outcome == "y2" & value == "x1>0", coef])
+
+# Test that simplerd handles alternative types correctly
+results <- simplerd(dt, p, alt_type = "cutoff", values = c(-0.1, 0.1))
+expect_equal(nrow(results$estimate), 4) #2 outcome * 2 specs
+expect_equal(results$estimate$type, rep("cutoff", nrow(results$estimate)))
+expect_true(results$estimate[outcome == "y2" & value == -0.1, coef] != results$estimate[outcome == "y2" & value == 0.1, coef])
+
 
 # Test verbose flag
 expect_message(simplerd(dt, p, verbose = TRUE))

@@ -63,16 +63,18 @@ simplerd <- function(data, p,
 
       #main estimate
       if("estimate" %in% result_type){
-        estimate <- est_rd(dts, p, outcol, ...)
+        estimate <- est_rd(dts, ps, outcol, ...)
         estimate[, `:=`(type = alt_type, value = value, outcome = outcol)]
+        setcolorder(estimate, c("outcome", "type", "value", "coef", "se", "pvalue", "llim", "rlim", "bw"))
         estimates <- rbind(estimate, estimates)
       }
 
       if("plot_source" %in% result_type | "plot" %in% result_type){
 
         #source for rdplot
-        plot_source <- plot_rd_source(dts, p, outcol)
+        plot_source <- plot_rd_source(dts, ps, outcol)
         plot_source[, `:=`(type = alt_type, value = value, outcome = outcol)]
+        plot_sources <- rbind(plot_source, plot_sources)
 
         if("plot" %in% result_type){
           plot <- plot_rd(plot_source)
@@ -90,7 +92,7 @@ simplerd <- function(data, p,
   }
 
   #assemble the result
-  result <- list(estimate = estimates, plot_source = plot_source, plot = plots)
+  result <- list(estimate = estimates, plot_source = plot_sources, plot = plots)
   class(result) <- "simplerd_result"
 
 

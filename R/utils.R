@@ -28,7 +28,6 @@
 #' )
 #'
 #' @export
-
 get_param <- function(outcomes, running, cutoff,
                       vce = "hc1", est = "robust", order = 1,
                       bandwidth = NULL, bin_bandwidth = NULL, covariate = NULL){
@@ -49,3 +48,21 @@ get_param <- function(outcomes, running, cutoff,
   return(p)
 
 }
+
+# summary function for the simplerd --------------------------------------------
+
+setClass("simplerd_result")
+setMethod("summary", signature(object = "simplerd_result"), function(object){
+
+  getstar <- function(p){ifelse(p < 0.01, "***", ifelse(p < 0.05, "**", ifelse(p < 0.1, "*", "")))}
+
+  dt <- object$estimate
+  dt[, spec := paste0(type, ": ", value)]
+  dt[, sig := getstar(pvalue)]
+  for(sp in dt[, unique(spec)]){
+    cat(paste0(sp, "\n"))
+    print(dt[spec == sp,.(outcome, coef, se, pvalue, sig)], class = FALSE)
+    cat("\n")
+  }
+
+})

@@ -36,8 +36,3 @@ A list containing the analysis results. This includes 'estimate' (data.table of 
 This function simplifies regression discontinuity (RD) analysis results by providing estimates and plots based on the specified alternative specifications and values.
 It allows for different types of RD analyses including main, subsample, and donut approaches.
 }
-\examples{
-# Assuming dt is your data.table and p is your parameter list:
-results <- simplerd(dt, p, alt_type = "subsample", values = c("group1", "group2"))
-
-}

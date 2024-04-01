@@ -1,10 +1,9 @@
 Package: simplerd
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: RD made simple
+Version: 0.9.0
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+    person("Lin-tung", "Tsai", , "tsaidondon@gmail.com", role = c("aut", "cre"))
+Description: Simplerd provides one-line solutions that simplifies RD analysis and its standards checks. It is primarily a wrapper around the rdrobust package.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
