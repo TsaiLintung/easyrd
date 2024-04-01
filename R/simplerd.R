@@ -13,12 +13,7 @@
 #'
 #' @return A list containing the analysis results. This includes 'estimate' (data.table of estimates), 'plot_source' (list of data for plots), and 'plot' (list of generated plots), depending on the specified result_type.
 #'
-#' @examples
-#' # Assuming dt is your data.table and p is your parameter list:
-#' results <- simplerd(dt, p, alt_type = "subsample", values = c("group1", "group2"))
-#'
-#' @importFrom data.table data.table
-#' @importFrom graphics plot
+#' @import data.table ggplot2 rdrobust dreamerr
 #' @export
 
 
@@ -27,6 +22,13 @@ simplerd <- function(data, p,
                      values = c(),
                      result_type = c("estimate", "plot"),
                      verbose = FALSE, ...){
+
+  #argument validation
+  if(class(p) != "rdsimple_param"){stop("please generate the parameter with get_param")}
+  if(!is.data.table(data)){data <- as.data.table(data)}
+
+  check_set_arg(alt_type, "NULL | match", .choices = c("cutoff", "vce", "est", "order", "bandwidth", "covariate", "subsample"))
+  check_set_arg(result_type, "multi match", .choices = c("estimate", "plot", "plot_source"))
 
   #if just the main result
   if(is.null(alt_type)){
@@ -72,10 +74,6 @@ simplerd <- function(data, p,
         plot_source <- plot_rd_source(dts, p, outcol)
         plot_source[, `:=`(type = alt_type, value = value, outcome = outcol)]
 
-        if("plot_source" %in% result_type){
-          plot_sources <- plot_sources |> rbind(plot_source)
-        }
-
         if("plot" %in% result_type){
           plot <- plot_rd(plot_source)
           plots[[outcol]] <- plot
@@ -92,7 +90,9 @@ simplerd <- function(data, p,
   }
 
   #assemble the result
-  result <- list(estimate = estimates, plot_source = plot_sources, plot = plots)
+  result <- list(estimate = estimates, plot_source = plot_source, plot = plots)
+  class(result) <- "simplerd_result"
+
 
   return(result)
 

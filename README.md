@@ -1,6 +1,6 @@
 # simplerd makes RD simple. 
 
-simplerd provides one-line solutions that makes doing RDD analysis and its robustness/validity checks simple. 
+Simplerd provides one-line solutions that simplifies RD analysis and its standards checks. 
 
 It is primarily wrapper around the rdrobust package.
 
@@ -16,8 +16,7 @@ devtools::install_github("TsaiLintung/simplerd")
 # Usage
 
 ```
-# Load necessary packages
-library(data.table)
+# Load the package
 library(simplerd)
 
 # simulate some data
@@ -42,5 +41,9 @@ hetero_results <- simplerd(dt, params, alt_type = "subsample", values = c("x2 > 
 
 # Get data-driven rd plots
 main_results$plot$y
+
+# The source of the plot can be extracted separately for style customization
+main_plot_source <- simplerd(dt, params, result_type = "plot_source")
+plot_rd(main_plot_source) + ggtitle("Custom title")
 
 ```

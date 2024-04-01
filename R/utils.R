@@ -44,6 +44,8 @@ get_param <- function(outcomes, running, cutoff,
   p$bin_bandwidth <- bin_bandwidth
   p$covariate <- covariate
 
+  class(p) <- "rdsimple_param"
+
   return(p)
 
 }
