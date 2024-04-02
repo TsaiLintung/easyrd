@@ -1,4 +1,4 @@
-#' Simple RD Analysis
+#' Easy RD Analysis
 #'
 #' This function simplifies regression discontinuity (RD) analysis results by providing estimates and plots based on the specified alternative specifications and values.
 #' It allows for different types of RD analyses including main, subsample, and donut approaches.
@@ -17,14 +17,14 @@
 #' @export
 
 
-simplerd <- function(data, p,
+easyrd <- function(data, p,
                      alt_type = NULL,
                      values = c(),
                      result_type = c("estimate", "plot"),
                      verbose = FALSE, ...){
 
   #argument validation
-  if(class(p) != "rdsimple_param"){stop("please generate the parameter with get_param")}
+  if(class(p) != "easyrd_param"){stop("please generate the parameter with get_param")}
   if(!is.data.table(data)){data <- as.data.table(data)}
 
   check_set_arg(alt_type, "NULL | match", .choices = c("cutoff", "vce", "est", "order", "bandwidth", "covariate", "subsample"))
@@ -93,7 +93,7 @@ simplerd <- function(data, p,
 
   #assemble the result
   result <- list(estimate = estimates, plot_source = plot_sources, plot = plots)
-  class(result) <- "simplerd_result"
+  class(result) <- "easyrd_result"
 
 
   return(result)

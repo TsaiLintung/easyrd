@@ -14,13 +14,15 @@ dt <- data.table(x = x, y = y, x1 = x1, y2 = y2)
 
 p <- get_param(running = "x", outcomes = c("y", "y2"), cutoff = 0)
 
-rd_result <- simplerd(dt, p)
+rd_result <- easyrd(dt, p)
+summary(rd_result)
+plot(rd_result)
 
 rd_result$plot$y
 rd_result$plot$y2
 
-alt_result <- simplerd(dt, p, "bandwidth", c(0.1, 0.2), result_type = "estimate")
-alt_result2 <- simplerd(dt, p, "subsample", c("TRUE", "x1>0.2"))
+alt_result <- easyrd(dt, p, "bandwidth", c(0.1, 0.2), result_type = "estimate")
+alt_result2 <- easyrd(dt, p, "subsample", c("TRUE", "x1>0.2"))
 
-rd_result <- simplerd(dt, p, result_type = "plot_source")
+rd_result <- easyrd(dt, p, result_type = "plot_source")
 plot_rd(rd_result$plot_source[outcome == "y"])

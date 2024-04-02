@@ -43,7 +43,7 @@ get_param <- function(outcomes, running, cutoff,
   p$bin_bandwidth <- bin_bandwidth
   p$covariate <- covariate
 
-  class(p) <- "rdsimple_param"
+  class(p) <- "easyrd_param"
 
   return(p)
 
@@ -51,8 +51,8 @@ get_param <- function(outcomes, running, cutoff,
 
 # summary function for the simplerd --------------------------------------------
 
-setClass("simplerd_result")
-setMethod("summary", signature(object = "simplerd_result"), function(object){
+setClass("easyrd_result")
+setMethod("summary", signature(object = "easyrd_result"), function(object){
 
   getstar <- function(p){ifelse(p < 0.01, "***", ifelse(p < 0.05, "**", ifelse(p < 0.1, "*", "")))}
 
@@ -65,4 +65,14 @@ setMethod("summary", signature(object = "simplerd_result"), function(object){
     cat("\n")
   }
 
+})
+
+setMethod("plot", signature(x = "easyrd_result"), function(x){
+  dt <- x$plot_source
+  if(dt[, uniqueN( paste0(type, ": ", value))] > 1){
+    dt[, spec := paste0(outcome, " ", type, ": ", value)]
+  } else {
+    dt[, spec := outcome]
+  }
+  plot_rd(dt) + facet_wrap(~spec)
 })

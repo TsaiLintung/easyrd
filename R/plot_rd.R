@@ -2,13 +2,13 @@
 #'
 #' draw the RD plot from the RD source
 #'
-#' @param ps plot source or simple rd plot object
+#' @param ps plot source or easy rd plot object
 #'
 #' @return ggplot
 #' @export
 plot_rd <- function(ps){
 
-  if("simplerd_result" %in% class(ps)){ps <- ps$plot_source}
+  if("easyrd_result" %in% class(ps)){ps <- ps$plot_source}
   if(!is.data.table(ps)){stop("invalid plot source")}
 
   head <- ps[1, ]
