@@ -1,10 +1,6 @@
 # easyrd - Regression Discontinuity Made Easy
 
-**easyrd** simplifies regression discontinuity (RD) analysis and its standard checks.
-
-**easyrd** is a wrapper around the **rdrobust** package
-
-It is mostly  which facilitates standard procedures recommended in 
+**easyrd** provides a one-line wrapper around the **rdrobust** package to facilitate a concise and consistent usage.
 
 # Installation
 
