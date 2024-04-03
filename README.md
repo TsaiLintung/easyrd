@@ -1,14 +1,14 @@
 # easyrd - Regression Discontinuity Made Easy
 
-**easyrd** provides a one-line wrapper around the **rdrobust** package to facilitate a concise and consistent usage.
+**easyrd** is a one-line wrapper around the **rdrobust** package to facilitate a concise and consistent usage.
 
 # Installation
 
-To install **easyrd**, use the following commands in R. This package is hosted on GitHub, and devtools is required for installation:
+To install **easyrd** from GitHub, run the following script:
 
 ```
 # First, ensure devtools is installed
-# install.packages("devtools")
+# install.packages("devtools"); library(devtools)
 
 # Install easyrd from GitHub
 devtools::install_github("TsaiLintung/easyrd")
@@ -16,7 +16,7 @@ devtools::install_github("TsaiLintung/easyrd")
 
 # Usage
 
-**easyrd** simplifies the process of conducting RD analysis, from data simulation to analysis and visualization. Here’s a basic workflow:
+Here’s a basic workflow for the main analysis using **easyrd**:
 
 ```
 # Load the package
@@ -40,7 +40,6 @@ params <- get_param(outcomes, running, cutoff)
 rd_result <- easyrd(dt, params)
 plot(rd_result)
 summary(rd_result)
-
 ```
 
 Conduct standard checks recommended in [Cattaneo](https://www.cambridge.org/core/elements/abs/practical-introduction-to-regression-discontinuity-designs/F04907129D5C1B823E3DB19C31CAB905) (2019) with ease.
@@ -53,7 +52,6 @@ cov_params <- params
 cov_params$outcomes <- c("x0") #
 cov_result <- easyrd(dt, cov_params)
 
-
 # Placebo cutoffs
 cutoff_results <- easyrd(dt, params, alt_type = "cutoff", values = c(-0.1, 0.1))
 
@@ -61,7 +59,6 @@ cutoff_results <- easyrd(dt, params, alt_type = "cutoff", values = c(-0.1, 0.1))
 #library(rddensity)
 density_check <- rddensity(dt[,x], cutoff)
 summary(density_check)
-
 ```
 
 Sensitivity checks:
