@@ -1,4 +1,4 @@
-setwd("~/GitHub/simplerd")
+setwd("~/GitHub/easyrd")
 
 library(devtools)
 library(tinytest)
@@ -13,5 +13,5 @@ load_all()
 
 run_test_dir()
 
-build()
+#build()
 

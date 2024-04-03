@@ -9,7 +9,7 @@ easyrd(
   p,
   alt_type = NULL,
   values = c(),
-  result_type = c("estimate", "plot"),
+  result_type = c("estimate", "plot_source", "plot"),
   verbose = FALSE,
   ...
 )
@@ -23,7 +23,7 @@ easyrd(
 
 \item{values}{A vector of values corresponding to the alt_type specification. These are used to modify the dataset or parameters based on the type of RD analysis being conducted.}
 
-\item{result_type}{A character vector indicating the types of results to return. The default is c("estimate", "plot"), meaning both estimates and plots will be generated. Can also include "plot_source" for the plot data.}
+\item{result_type}{A character vector indicating the types of results to return. The default is c("estimate", "plot_source", "plot") for getting all results.}
 
 \item{verbose}{A boolean flag indicating whether to print messages for each result produced. Defaults to FALSE}
 

@@ -7,7 +7,7 @@
 #' @param p A list containing parameters for the RD analysis, typically including outcomes and other necessary information.
 #' @param alt_type A string that specifies the type of alternative analysis to be conducted. Valid types are NULL (defaults to "main"), "subsample", and "donut". This argument determines how the data is manipulated before analysis.
 #' @param values A vector of values corresponding to the alt_type specification. These are used to modify the dataset or parameters based on the type of RD analysis being conducted.
-#' @param result_type A character vector indicating the types of results to return. The default is c("estimate", "plot"), meaning both estimates and plots will be generated. Can also include "plot_source" for the plot data.
+#' @param result_type A character vector indicating the types of results to return. The default is c("estimate", "plot_source", "plot") for getting all results. 
 #' @param verbose A boolean flag indicating whether to print messages for each result produced. Defaults to FALSE
 #' @param ... Additional arguments passed to the estimation function est_rd.
 #'
@@ -18,24 +18,23 @@
 
 
 easyrd <- function(data, p,
-                     alt_type = NULL,
-                     values = c(),
-                     result_type = c("estimate", "plot"),
-                     verbose = FALSE, ...){
+                   alt_type = NULL,
+                   values = c(),
+                   result_type = c("estimate", "plot_source", "plot"),
+                   verbose = FALSE, ...){
 
   #argument validation
   if(class(p) != "easyrd_param"){stop("please generate the parameter with get_param")}
   if(!is.data.table(data)){data <- as.data.table(data)}
 
-  check_set_arg(alt_type, "NULL | match", .choices = c("cutoff", "vce", "est", "order", "bandwidth", "covariate", "subsample"))
+  check_set_arg(alt_type, "NULL | match", .choices = c("cutoff", "vce", "est", "order", "bandwidth", "covariate", "subsample", "donut"))
   check_set_arg(result_type, "multi match", .choices = c("estimate", "plot", "plot_source"))
-
-  #if just the main result
+  
   if(is.null(alt_type)){
     alt_type <- "main"
     values <- NA
   }
-
+  
   #multiple spec
   estimates <- data.table()
   plot_sources <- data.table()
@@ -90,7 +89,7 @@ easyrd <- function(data, p,
     }
 
   }
-
+  
   #assemble the result
   result <- list(estimate = estimates, plot_source = plot_sources, plot = plots)
   class(result) <- "easyrd_result"
