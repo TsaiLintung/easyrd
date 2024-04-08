@@ -51,7 +51,13 @@ get_param <- function(outcomes, running, cutoff,
 
 # summary function for the simplerd --------------------------------------------
 
+#' The result from easy rd
 setClass("easyrd_result")
+
+#' Summarize the result from easyrd
+#'
+#' @param object A easyrd_result object
+#' @export
 setMethod("summary", signature(object = "easyrd_result"), function(object){
 
   getstar <- function(p){ifelse(p < 0.01, "***", ifelse(p < 0.05, "**", ifelse(p < 0.1, "*", "")))}
@@ -67,6 +73,10 @@ setMethod("summary", signature(object = "easyrd_result"), function(object){
 
 })
 
+#' Plot the result from easyrd
+#'
+#' @param x A easyrd_result object
+#' @export
 setMethod("plot", signature(x = "easyrd_result"), function(x){
   if(!is.null(x$alt_type)){
     return(plot_alt_rd(x$estimate))
