@@ -1,6 +1,6 @@
 # easyrd - Regression Discontinuity Made Easy
 
-**easyrd** is a one-line solution for Regression Discontinuity analysis and its standard checks. It is mostly a wrapper around the **rdrobust** package to facilitate the procedured recommended in [Cattaneo](https://www.cambridge.org/core/elements/abs/practical-introduction-to-regression-discontinuity-designs/F04907129D5C1B823E3DB19C31CAB905) (2019).
+**easyrd** is a one-line solution for Regression Discontinuity analysis and its standard checks. It is mostly a wrapper around the **rdrobust** package to facilitate the procedures recommended in [Cattaneo](https://www.cambridge.org/core/elements/abs/practical-introduction-to-regression-discontinuity-designs/F04907129D5C1B823E3DB19C31CAB905) (2019).
 
 # Installation
 
