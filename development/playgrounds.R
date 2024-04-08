@@ -3,8 +3,10 @@ setwd("~/GitHub/easyrd")
 library(roxygen2)
 library(devtools)
 
-roxygenise()
-load_all()
+#roxygenise()
+#load_all()
+
+source("development/easyrd_sourcever.R")
 
 x <- runif(1000, -1, 1)
 x1 <- runif(1000, -1, 1)
