@@ -1,6 +1,6 @@
 # easyrd - Regression Discontinuity Made Easy
 
-**easyrd** is a one-line wrapper around the **rdrobust** package to facilitate a concise and consistent usage.
+**easyrd** is a one-line solution for Regressino Dicontinuity analysis and its standard checks. It is mostly a wrapper around the **rdrobust** package to facilitate the procedured recommended in [Cattaneo](https://www.cambridge.org/core/elements/abs/practical-introduction-to-regression-discontinuity-designs/F04907129D5C1B823E3DB19C31CAB905) (2019).
 
 # Installation
 
@@ -16,7 +16,7 @@ devtools::install_github("TsaiLintung/easyrd")
 
 # Usage
 
-Here’s a basic workflow for the main analysis using **easyrd**:
+Here’s a basic workflow for the main RD analysis using **easyrd**:
 
 ```
 # Load the package
@@ -42,7 +42,7 @@ rd_result <- easyrd(dt, params)
 
 # Features
 
-Conduct standard checks recommended in [Cattaneo](https://www.cambridge.org/core/elements/abs/practical-introduction-to-regression-discontinuity-designs/F04907129D5C1B823E3DB19C31CAB905) (2019) with ease. :
+Conduct standard checks with ease. :
 
 ```
 #Validity checks
@@ -68,7 +68,7 @@ donut_results <- easyrd(dt, params, alt_type = "donut", values = c(0.01, 0.02, 0
 bandwidth_results <- easyrd(dt, params, alt_type = "bandwidth", values = c(0.1, 0.2, 0.3))
 ```
 
-Result can be reported easily with `summary` and `plot`
+Result can be generated easily with `summary` and `plot`
 
 ```
 plot(rd_result) #standard rd plot
