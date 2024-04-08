@@ -20,6 +20,7 @@ Here’s a basic workflow for the main RD analysis using **easyrd**:
 
 ```
 # Load the package
+library(data.table)
 library(easyrd)
 
 # Simulate some example data
