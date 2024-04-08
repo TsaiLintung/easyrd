@@ -38,8 +38,6 @@ params <- get_param(outcomes, running, cutoff)
 
 # Execute the main RD analysis
 rd_result <- easyrd(dt, params)
-plot(rd_result)
-summary(rd_result)
 ```
 
 # Features
@@ -57,9 +55,9 @@ cov_result <- easyrd(dt, cov_params)
 # Placebo cutoffs
 cutoff_results <- easyrd(dt, params, alt_type = "cutoff", values = c(-0.1, 0.1))
 
-# Density check is not included in easyrd but can be done easily with rddensity
-#library(rddensity)
-density_check <- rddensity(dt[,x], cutoff)
+# Density check is not included in easyrd but can be done easily with rddensity:
+# require(rddensity)
+# density_check <- rddensity(dt[,x], cutoff)
 
 #Sensitivity checks
 
@@ -74,6 +72,13 @@ Result can be reported easily with `summary` and `plot`
 
 ```
 plot(rd_result) #standard rd plot
-plot(cutoff_results) #estimates with alternative specifications
 summary(rd_result) #result table
+plot(cutoff_results) #estimates with alternative specifications
+```
+
+The source of RD plots can be saved separately for later customization
+
+```
+plot_sources <- rd_result$plot_source #plot_sources is a data.table that can be saved as csv easily
+plot_rd(plot_sources) + ggtitle("my custom title")
 ```
