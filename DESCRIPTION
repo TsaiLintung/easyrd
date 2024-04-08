@@ -5,6 +5,11 @@ Authors@R:
     person("Lin-tung", "Tsai", , "tsaidondon@gmail.com", role = c("aut", "cre"))
 Description: one-line solution for Regressino Dicontinuity analysis and its standard checks
 License: GPL (>= 3)
+Imports:
+    data.table,
+    dreamerr,
+    ggplot2,
+    rdrobust
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
