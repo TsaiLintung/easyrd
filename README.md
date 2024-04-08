@@ -42,11 +42,13 @@ plot(rd_result)
 summary(rd_result)
 ```
 
-Conduct standard checks recommended in [Cattaneo](https://www.cambridge.org/core/elements/abs/practical-introduction-to-regression-discontinuity-designs/F04907129D5C1B823E3DB19C31CAB905) (2019) with ease.
+# Features
 
-Validity checks:
+Conduct standard checks recommended in [Cattaneo](https://www.cambridge.org/core/elements/abs/practical-introduction-to-regression-discontinuity-designs/F04907129D5C1B823E3DB19C31CAB905) (2019) with ease. :
 
 ```
+#Validity checks
+
 # Predetermined Covariates and Placebo Outcomes
 cov_params <- params
 cov_params$outcomes <- c("x0") #
@@ -58,15 +60,20 @@ cutoff_results <- easyrd(dt, params, alt_type = "cutoff", values = c(-0.1, 0.1))
 # Density check is not included in easyrd but can be done easily with rddensity
 #library(rddensity)
 density_check <- rddensity(dt[,x], cutoff)
-summary(density_check)
-```
 
-Sensitivity checks:
+#Sensitivity checks
 
-```
 # Sensitivity to Observations near the Cutoff (donut)
 donut_results <- easyrd(dt, params, alt_type = "donut", values = c(0.01, 0.02, 0.03))
 
 # Sensitivity to Bandwidth Choice
 bandwidth_results <- easyrd(dt, params, alt_type = "bandwidth", values = c(0.1, 0.2, 0.3))
+```
+
+Result can be reported easily with `summary` and `plot`
+
+```
+plot(rd_result) #standard rd plot
+plot(cutoff_results) #estimates with alternative specifications
+summary(rd_result) #result table
 ```

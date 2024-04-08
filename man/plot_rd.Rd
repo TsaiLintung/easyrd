@@ -7,7 +7,7 @@
 plot_rd(ps)
 }
 \arguments{
-\item{ps}{plot source or easy rd plot object}
+\item{ps}{plot source or easy rd plot object or a data.table from result$plot_source}
 }
 \value{
 ggplot

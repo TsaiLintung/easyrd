@@ -68,11 +68,10 @@ setMethod("summary", signature(object = "easyrd_result"), function(object){
 })
 
 setMethod("plot", signature(x = "easyrd_result"), function(x){
-  dt <- x$plot_source
-  if(dt[, uniqueN( paste0(type, ": ", value))] > 1){
-    dt[, spec := paste0(outcome, " ", type, ": ", value)]
+  if(!is.null(x$alt_type)){
+    return(plot_alt_rd(x$estimate))
   } else {
-    dt[, spec := outcome]
+    return(plot_rd(x$plot_source))
   }
-  plot_rd(dt) + facet_wrap(~spec)
+  
 })

@@ -91,7 +91,12 @@ easyrd <- function(data, p,
   }
   
   #assemble the result
-  result <- list(estimate = estimates, plot_source = plot_sources, plot = plots)
+  result <- list(estimate = estimates,
+                 plot_source = plot_sources,
+                 plot = plots,
+                 params = p,
+                 alt_type = alt_type,
+                 values = values)
   class(result) <- "easyrd_result"
 
 

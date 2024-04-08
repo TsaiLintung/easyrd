@@ -1,4 +1,4 @@
-setwd("~/GitHub/simplerd")
+setwd("~/GitHub/easyrd")
 
 library(roxygen2)
 library(devtools)
@@ -21,8 +21,11 @@ plot(rd_result)
 rd_result$plot$y
 rd_result$plot$y2
 
-alt_result <- easyrd(dt, p, "bandwidth", c(0.1, 0.2), result_type = "estimate")
+alt_result <- easyrd(dt, p, "bandwidth", c(0.1, 0.2))
 alt_result2 <- easyrd(dt, p, "subsample", c("TRUE", "x1>0.2"))
 
 rd_result <- easyrd(dt, p, result_type = "plot_source")
 plot_rd(rd_result$plot_source[outcome == "y"])
+plot_rd(rd_result)
+plot(alt_result2)
+plot(alt_result)

@@ -31,13 +31,15 @@ expect_equal(nrow(results$estimate), 4) #2 outcome * 2 specs
 expect_equal(results$estimate$type, rep("cutoff", nrow(results$estimate)))
 expect_true(results$estimate[outcome == "y2" & value == -0.1, coef] != results$estimate[outcome == "y2" & value == 0.1, coef])
 
-
 # Test verbose flag
 expect_message(easyrd(dt, p, verbose = TRUE))
 
 # Test plot from source
 results <- easyrd(dt, p, result_type = "plot_source")
 expect_equal(class(plot_rd(results$plot_source[outcome == "y"])), c("gg", "ggplot"))
+
+rm(results)
+
 # param basic -----------------------------------------------------------------
 
 # Test that get_param returns a list with correct default values
@@ -53,3 +55,15 @@ expect_equal(params$cutoff, 18) #specified
 expect_equal(params$vce, "hc1") #default
 expect_null(params$covariate) #default null
 expect_equal(params$order, 2) #specified non-default
+
+# plot ----------------------------------------
+
+results <- easyrd(dt, p)
+expect_equal(class(plot(results)), c("gg", "ggplot"))
+expect_stdout(summary(results), "outcome")
+
+alt_results <- easyrd(dt, p, alt_type = "cutoff", values = c(-0.1, 0.1))
+expect_equal(class(plot(alt_results)), c("gg", "ggplot"))
+expect_stdout(summary(alt_results), "outcome")
+
+# summary --------------------------------------
