@@ -16,7 +16,7 @@ devtools::install_github("TsaiLintung/easyrd")
 
 # Usage
 
-Here’s a basic workflow for the main RD analysis using **easyrd**:
+Here is a basic workflow for the main RD analysis using **easyrd**:
 
 ```
 # Load the package
