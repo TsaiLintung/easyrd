@@ -4,7 +4,6 @@ gc()
 library(stringr)
 library(here)
 
-
 source_files <- list.files(here("R"), include.dirs = FALSE, full.names = TRUE)
 
 ver <- "0.9.0"
@@ -18,7 +17,7 @@ cat(paste0("require(", dep, ");") |> str_flatten())
 sink()
 
 sink(paste0("development/easyrd_", str_replace_all(ver, "\\.", "_"), ".R"))
-cat(here("development/source_head.R"), sep ="\n")
+cat(readLines(here("development/source_head.R")), sep ="\n")
 for(file in source_files){
   current_file = readLines(file)
   cat(current_file, sep ="\n")
