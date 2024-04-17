@@ -1,6 +1,5 @@
-#2024-04-08
-message('loading easyrd source ver. ver: 0.9.0 (new start), date: 2024-04-08')
-require(data.table);require(dreamerr);require(ggplot2);require(rdrobust)#' Easy RD Analysis
+C:/Users/user/Documents/GitHub/easyrd/development/source_head.R
+#' Easy RD Analysis
 #'
 #' This function simplifies regression discontinuity (RD) analysis results by providing estimates and plots based on the specified alternative specifications and values.
 #' It allows for different types of RD analyses including main, subsample, and donut approaches.
@@ -295,7 +294,13 @@ get_param <- function(outcomes, running, cutoff,
 
 # summary function for the simplerd --------------------------------------------
 
+#' The result from easy rd
 setClass("easyrd_result")
+
+#' Summarize the result from easyrd
+#'
+#' @param object A easyrd_result object
+#' @export
 setMethod("summary", signature(object = "easyrd_result"), function(object){
 
   getstar <- function(p){ifelse(p < 0.01, "***", ifelse(p < 0.05, "**", ifelse(p < 0.1, "*", "")))}
@@ -311,8 +316,12 @@ setMethod("summary", signature(object = "easyrd_result"), function(object){
 
 })
 
+#' Plot the result from easyrd
+#'
+#' @param x A easyrd_result object
+#' @export
 setMethod("plot", signature(x = "easyrd_result"), function(x){
-  if(!is.null(x$alt_type)){
+  if(!x$alt_type=="main"){
     return(plot_alt_rd(x$estimate))
   } else {
     return(plot_rd(x$plot_source))

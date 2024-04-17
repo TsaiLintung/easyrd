@@ -53,6 +53,3 @@ plot(cutoff_results) #estimates with alternative specifications
 
 plot_sources <- rd_result$plot_source #plot_sources is a data.table that can be saved as csv easily
 plot_rd(plot_sources) + ggtitle("my custom title")
-
-
-

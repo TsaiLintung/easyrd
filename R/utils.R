@@ -78,7 +78,7 @@ setMethod("summary", signature(object = "easyrd_result"), function(object){
 #' @param x A easyrd_result object
 #' @export
 setMethod("plot", signature(x = "easyrd_result"), function(x){
-  if(!is.null(x$alt_type)){
+  if(!x$alt_type=="main"){
     return(plot_alt_rd(x$estimate))
   } else {
     return(plot_rd(x$plot_source))
