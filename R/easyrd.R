@@ -9,6 +9,7 @@
 #' @param values A vector of values corresponding to the alt_type specification. These are used to modify the dataset or parameters based on the type of RD analysis being conducted.
 #' @param result_type A character vector indicating the types of results to return. The default is c("estimate", "plot_source", "plot") for getting all results. 
 #' @param verbose A boolean flag indicating whether to print messages for each result produced. Defaults to FALSE
+#' @param copy copy the dataset, default is TRUE
 #' @param ... Additional arguments passed to the estimation function est_rd.
 #'
 #' @return A list containing the analysis results. This includes 'estimate' (data.table of estimates), 'plot_source' (list of data for plots), and 'plot' (list of generated plots), depending on the specified result_type.
@@ -21,12 +22,13 @@ easyrd <- function(data, p,
                    alt_type = NULL,
                    values = c(),
                    result_type = c("estimate", "plot_source", "plot"),
-                   verbose = FALSE, ...){
+                   verbose = FALSE, copy = TRUE, ...){
 
   #argument validation
   if(class(p) != "easyrd_param"){stop("please generate the parameter with get_param")}
   if(!is.data.table(data)){data <- as.data.table(data)}
-
+  if(copy){data <- copy(data)}
+  
   check_set_arg(alt_type, "NULL | match", .choices = c("cutoff", "vce", "est", "order", "bandwidth", "covariate", "subsample", "donut"))
   check_set_arg(result_type, "multi match", .choices = c("estimate", "plot", "plot_source"))
   
