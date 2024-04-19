@@ -1,5 +1,5 @@
-#2024-04-17
-message('loading easyrd source ver. ver: 0.9.0 (new start), date: 2024-04-17')
+#2024-04-19
+message('loading easyrd source ver. ver: 0.9.0 (new start), date: 2024-04-19')
 require(data.table);require(dreamerr);require(ggplot2);require(rdrobust);
 #' Easy RD Analysis
 #'
@@ -274,7 +274,7 @@ plot_rd_source <- function(dt, p, outcol){
 #'
 #' @export
 get_param <- function(outcomes, running, cutoff,
-                      vce = "hc1", est = "robust", order = 1,
+                      vce = "hc1", est = "robust", order = 1, donut = -1,
                       bandwidth = NULL, bin_bandwidth = NULL, covariate = NULL){
 
   p <- list()
@@ -287,6 +287,7 @@ get_param <- function(outcomes, running, cutoff,
   p$bandwidth <- bandwidth
   p$bin_bandwidth <- bin_bandwidth
   p$covariate <- covariate
+  p$donut <- donut
 
   class(p) <- "easyrd_param"
 
