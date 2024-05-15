@@ -32,8 +32,8 @@ easyrd <- function(data, p,
   if(!is.data.table(data)){data <- as.data.table(data)}
   if(copy){data <- copy(data)}
   
-  check_set_arg(alt_type, "NULL | match", .choices = c("cutoff", "vce", "est", "order", "bandwidth", "covariate", "subsample", "donut"))
-  check_set_arg(result_type, "multi match", .choices = c("estimate", "plot", "plot_source"))
+  #check_arg(alt_type, "NULL | match", .choices = c("cutoff", "vce", "est", "order", "bandwidth", "covariate", "subsample", "donut"))
+  #check_arg(result_type, "multi match", .choices = c("estimate", "plot", "plot_source"))
   
   if(is.null(alt_type)){
     alt_type <- "main"
@@ -54,14 +54,12 @@ easyrd <- function(data, p,
     if(alt_type != "main"){
       if(alt_type == "subsample"){
         dts <- dts[eval(str2lang(value))]
-      }
-      else if(alt_type == "donut"){
-        dts <- dts[get(p$running) > p$cutoff + value | get(p$running) < p$cutoff - value]
       } else {
         ps[[alt_type]] <- value
       }
     }
-
+    
+    dts <- dts[get(ps$running) > ps$cutoff + ps$donut | get(ps$running) < ps$cutoff - ps$donut]
     #get results for each outcome
     for(outcol in outcomes){
 

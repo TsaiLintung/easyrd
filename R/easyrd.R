@@ -51,13 +51,12 @@ easyrd <- function(data, p,
     if(alt_type != "main"){
       if(alt_type == "subsample"){
         dts <- dts[eval(str2lang(value))]
-      }
-      else if(alt_type == "donut"){
-        dts <- dts[get(p$running) > p$cutoff + value | get(p$running) < p$cutoff - value]
       } else {
         ps[[alt_type]] <- value
       }
     }
+    
+    dts <- dts[get(ps$running) > ps$cutoff + ps$donut | get(ps$running) < ps$cutoff - ps$donut]
 
     #get results for each outcome
     for(outcol in outcomes){
