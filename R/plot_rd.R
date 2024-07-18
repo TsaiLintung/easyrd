@@ -51,7 +51,7 @@ plot_rd_source <- function(dt, p, outcol){
   
   #default values
   if(is.null(p$bandwidth)){
-    bwresult <- tryCatch(rdbwselect(y = outcome, x = rv, c = p$cutoff, p = p$plot_param$p, q = p$plot_param$q, vce = "hc1"),
+    bwresult <- tryCatch(suppressWarnings(rdbwselect(y = outcome, x = rv, c = p$cutoff, p = p$plot_param$p, q = p$plot_param$q, vce = "hc1")),
                     error = function(e){
                       message("rdbwselect for plot failed with: ", e)
                       return(NULL)})
@@ -68,10 +68,10 @@ plot_rd_source <- function(dt, p, outcol){
     
   #get the rd plot
   rdplot_param <- c(list(y = outcome, x = rv, c = p$cutoff, hide = TRUE, h = bw), p$plot_param)
-  rdp <- tryCatch(do.call(rdplot, rdplot_param),
-                  error = function(e){
-                    message("rd plot failed with: ", e)
-                    return(NULL)})
+  invisible(capture.output(rdp <- tryCatch(do.call(rdplot, rdplot_param),
+                                           error = function(e){
+                                             message("rd plot failed with: ", e)
+                                             return(NULL)})))
   
   #extract info from the rdplot
   if(!is.null(rdp)){

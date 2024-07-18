@@ -15,6 +15,7 @@
 #'
 #' @import data.table ggplot2 rdrobust dreamerr
 #' @importFrom stats pnorm qnorm
+#' @importFrom utils capture.output
 #' @export
 easyrd <- function(data, p,
                    alt_type = NULL,

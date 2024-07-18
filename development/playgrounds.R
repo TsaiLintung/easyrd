@@ -3,12 +3,11 @@ setwd("~/Documents/GitHub/easyrd")
 library(roxygen2)
 library(devtools)
 
-#roxygenise()
-#load_all()
-
-source("development/easyrd_sourcever.R")
+roxygenise()
+load_all()
 
 x <- runif(1000, -1, 1)
+x <- sample(-20:20, 1000, replace = TRUE)
 x1 <- runif(1000, -1, 1)
 y <- 5+3*x+x1+2*(x>=0)+rnorm(1000)
 y2 <- 5+3*x+x1+3*(x>=0)+rnorm(1000)
