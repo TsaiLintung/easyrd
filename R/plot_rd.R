@@ -38,7 +38,8 @@ plot_alt_rd <- function(dt){
   alt_type <- dt[1,type]
   plot <-  dt |> ggplot() + geom_point(aes(x = value, y = coef)) + geom_errorbar(aes(x = value, ymax = coef + se*qn, ymin = coef - se*qn)) +
     geom_hline(yintercept = 0, linetype = "dashed") + 
-    labs(title = paste0("RD estimate with alternative ", alt_type), xlab = alt_type, ylab = "") + facet_wrap(~outcome)
+    labs(title = paste0("RD estimate with alternative ", alt_type), xlab = alt_type, ylab = "") + 
+    facet_wrap(~outcome, scales = "free")
   return(plot)
 }
 
@@ -50,7 +51,10 @@ plot_rd_source <- function(dt, p, outcol){
   
   #default values
   if(is.null(p$bandwidth)){
-    bwresult <- rdbwselect(y = outcome, x = rv, c = p$cutoff, p = p$plot_param$p, q = p$plot_param$q, vce = "hc1")
+    bwresult <- tryCatch(rdbwselect(y = outcome, x = rv, c = p$cutoff, p = p$plot_param$p, q = p$plot_param$q, vce = "hc1"),
+                    error = function(e){
+                      message("rdbwselect for plot failed with: ", e)
+                      return(NULL)})
     bw <- bwresult$bws[1]
   } else {
     bw <- p$bandwidth

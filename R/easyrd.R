@@ -7,7 +7,7 @@
 #' @param p A list containing parameters for the RD analysis, typically including outcomes and other necessary information.
 #' @param alt_type A string that specifies the type of alternative analysis to be conducted. Valid types are NULL (defaults to "main"), "subsample", and "donut". This argument determines how the data is manipulated before analysis.
 #' @param values A vector of values corresponding to the alt_type specification. These are used to modify the dataset or parameters based on the type of RD analysis being conducted.
-#' @param result_type A character vector indicating the types of results to return. The default is c("estimate", "plot_source", "plot") for getting all results. 
+#' @param result_type A character vector indicating the types of results to return. The default is c("estimate", "plot_source", "plot") for main results and "estimate" for alt results 
 #' @param verbose A boolean flag indicating whether to print messages for each result produced. Defaults to FALSE
 #' @param copy copy the dataset, default is TRUE
 #'
@@ -19,7 +19,7 @@
 easyrd <- function(data, p,
                    alt_type = NULL,
                    values = c(),
-                   result_type = c("estimate", "plot_source", "plot"),
+                   result_type = NULL,
                    verbose = FALSE, copy = TRUE){
 
   #argument validation
@@ -29,6 +29,14 @@ easyrd <- function(data, p,
   
   check_set_arg(alt_type, "NULL | match", .choices = c("cutoff", "vce", "est", "order", "bandwidth", "covariate", "subsample", "donut"))
   check_set_arg(result_type, "multi match", .choices = c("estimate", "plot", "plot_source"))
+  
+  if(is.null(result_type)){
+    if(is.null(alt_type) || alt_type == "main"){
+      result_type <- c("estimate", "plot_source", "plot")
+    } else {
+      result_type <- "estimate"
+    }
+  }
   
   if(is.null(alt_type)){
     alt_type <- "main"
