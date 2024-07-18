@@ -25,23 +25,17 @@ library(ggplot2)
 library(easyrd)
 
 # Simulate some example data
-x0 <- runif(1000, -1, 1)
-x <- runif(1000, -1, 1)
-x2 <- runif(1000, -1, 1)
-y <- 5 + 3*x + x2 + 2*(x >= 0) + rnorm(1000)
-y2 <- 5 + 3*x + x2 + 3*(x >= 0) + rnorm(1000)
-dt <- data.table(x = x, x2 = x2, y = y, y2 = y2, x0 = x0)
+n <- 10000
+dt <- data.table(x = runif(n, -1, 1), x2 = runif(n, -1, 1), x0 = (n, -1, 1)
+                 y = 5 + 3*x + x2 + 2*(x >= 0) + rnorm(n),
+                 y2 = 5 + 3*x + x2 + 3*(x >= 0) + rnorm(n))
 
 # Set parameters for RD analysis
-outcomes <- c("y", "y2")
-running <- "x"
-cutoff <- 0
-params <- get_rd_param(outcomes, running, cutoff)
+params <- get_rd_param(c("y", "y2"), "x", 0)
 
 # Execute the main RD analysis
 rd_result <- easyrd(dt, params)
-#see the results!
-rd_result 
+rd_result #see the results!
 ```
 
 # Features
