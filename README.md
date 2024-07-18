@@ -26,7 +26,7 @@ library(easyrd)
 
 # Simulate some example data
 n <- 10000
-dt <- data.table(x = runif(n, -1, 1), x2 = runif(n, -1, 1), x0 = (n, -1, 1)
+dt <- data.table(x = runif(n, -1, 1), x2 = runif(n, -1, 1), x0 = runif(n, -1, 1),
                  y = 5 + 3*x + x2 + 2*(x >= 0) + rnorm(n),
                  y2 = 5 + 3*x + x2 + 3*(x >= 0) + rnorm(n))
 
