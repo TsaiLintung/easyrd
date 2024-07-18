@@ -1,9 +1,9 @@
 Package: easyrd
 Title: RD made easy
-Version: 0.9.0
+Version: 0.9.1
 Authors@R: 
     person("Lin-tung", "Tsai", , "tsaidondon@gmail.com", role = c("aut", "cre"))
-Description: one-line solution for Regression Discontinuity analysis and its standard checks
+Description: One-line solution for Regression Discontinuity analysis and its standard checks.
 License: GPL (>= 3)
 Imports:
     data.table,
@@ -12,4 +12,4 @@ Imports:
     rdrobust
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2

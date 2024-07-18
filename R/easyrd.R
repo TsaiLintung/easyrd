@@ -10,22 +10,20 @@
 #' @param result_type A character vector indicating the types of results to return. The default is c("estimate", "plot_source", "plot") for getting all results. 
 #' @param verbose A boolean flag indicating whether to print messages for each result produced. Defaults to FALSE
 #' @param copy copy the dataset, default is TRUE
-#' @param ... Additional arguments passed to the estimation function est_rd.
 #'
 #' @return A list containing the analysis results. This includes 'estimate' (data.table of estimates), 'plot_source' (list of data for plots), and 'plot' (list of generated plots), depending on the specified result_type.
 #'
 #' @import data.table ggplot2 rdrobust dreamerr
+#' @importFrom stats pnorm qnorm
 #' @export
-
-
 easyrd <- function(data, p,
                    alt_type = NULL,
                    values = c(),
                    result_type = c("estimate", "plot_source", "plot"),
-                   verbose = FALSE, copy = TRUE, ...){
+                   verbose = FALSE, copy = TRUE){
 
   #argument validation
-  if(class(p) != "easyrd_param"){stop("please generate the parameter with get_param")}
+  if(!inherits(p, "easyrd_param")){stop("please generate the parameter with get_rd_param")}
   if(!is.data.table(data)){data <- as.data.table(data)}
   if(copy){data <- copy(data)}
   
@@ -41,12 +39,12 @@ easyrd <- function(data, p,
   estimates <- data.table()
   plot_sources <- data.table()
   plots <- list()
-  outcomes <- p$outcomes
+  outcomes <- 
   for(value in values){
 
     dts <- data
     ps <- p
-
+    
     #get the spec
     if(alt_type != "main"){
       if(alt_type == "subsample"){
@@ -55,15 +53,16 @@ easyrd <- function(data, p,
         ps[[alt_type]] <- value
       }
     }
-    
+
+    #get the donut hole
     dts <- dts[get(ps$running) > ps$cutoff + ps$donut | get(ps$running) < ps$cutoff - ps$donut]
 
     #get results for each outcome
-    for(outcol in outcomes){
+    for(outcol in p$outcomes){
 
       #main estimate
       if("estimate" %in% result_type){
-        estimate <- est_rd(dts, ps, outcol, ...)
+        estimate <- est_rd(dts, ps, outcol)
         estimate[, `:=`(type = alt_type, value = value, outcome = outcol)]
         setcolorder(estimate, c("outcome", "type", "value", "coef", "se", "pvalue", "llim", "rlim", "bw"))
         estimates <- rbind(estimate, estimates)
@@ -98,9 +97,7 @@ easyrd <- function(data, p,
                  params = p,
                  alt_type = alt_type,
                  values = values)
-  class(result) <- "easyrd_result"
-
-
+  class(result) <- c("easyrd_result")
   return(result)
 
 }

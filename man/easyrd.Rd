@@ -11,7 +11,7 @@ easyrd(
   values = c(),
   result_type = c("estimate", "plot_source", "plot"),
   verbose = FALSE,
-  ...
+  copy = TRUE
 )
 }
 \arguments{
@@ -27,7 +27,7 @@ easyrd(
 
 \item{verbose}{A boolean flag indicating whether to print messages for each result produced. Defaults to FALSE}
 
-\item{...}{Additional arguments passed to the estimation function est_rd.}
+\item{copy}{copy the dataset, default is TRUE}
 }
 \value{
 A list containing the analysis results. This includes 'estimate' (data.table of estimates), 'plot_source' (list of data for plots), and 'plot' (list of generated plots), depending on the specified result_type.

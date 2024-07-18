@@ -1,88 +1,72 @@
 #' Generate Parameters for RD Analysis
 #'
-#' This function generates a list of parameters for regression discontinuity (RD) analysis based on user-defined inputs. It is primarily used to set up the necessary parameters before conducting an RD analysis.
+#' Generates a list of parameters for regression discontinuity (RD) analysis based on user-defined inputs. 
+#' It is primarily used to set up the necessary parameters before conducting an RD analysis.
 #'
 #' @param outcomes A character vector specifying the outcome variables for the RD analysis.
 #' @param running A string indicating the running variable used in the RD analysis.
 #' @param cutoff A numeric value specifying the cutoff point for the running variable in the RD analysis.
-#' @param vce A string specifying the variance-covariance estimator to be used. Default is "hc1".
-#' @param est A string indicating the estimation method to be used. Default is "robust".
-#' @param order An integer specifying the order of the polynomial to fit in the RD design. Default is 1 (linear).
-#' @param bandwidth A numeric specifying the bandwidth around the cutoff. If NULL, it will be calculated automatically based on the data and method. Default is NULL.
-#' @param bin_bandwidth A numeric value used to specify the bandwidth for binning data in the graphical representation of the RD design. If NULL, it will be determined automatically. Default is NULL.
-#' @param covariate A vector of strings representing any covariates to be included in the RD analysis. Default is NULL.
+#' @param bandwidth A numeric value specifying the bandwidth for data used, default is "NULL"
+#' @param donut A numeric value specifying the size of the donut hole, default is -1
+#' @param covs the vector of column names of variable used as covariates, default is NULL
+#' @param cluster the name of the column name of variable used for clustering standard error, default is NULL
+#' @param est A string indicating the estimator to be used. Default is "robust".
+#' @param bin_bandidth_ratio A numeric to adjust the size of the bin relative to the local regression line, NULL value just show all data, default is 1
+#' @param est_param A list of parameters to be passed to rdrobust, default is list(vce = "hc1")
+#' @param plot_param A list of parameters to be passed to rdplot, default is list(kernel = "triangular", p = 1)
 #'
 #' @return A list containing the specified parameters for the RD analysis.
-#'
-#' @examples
-#' params <- get_param(
-#'   outcomes = c("test_score", "graduation_rate"),
-#'   running = "age",
-#'   cutoff = 18,
-#'   vce = "hc1",
-#'   est = "robust",
-#'   order = 2,
-#'   bandwidth = 5,
-#'   bin_bandwidth = 0.5,
-#'   covariate = c("gender", "income")
-#' )
-#'
 #' @export
-get_param <- function(outcomes, running, cutoff,
-                      vce = "hc1", est = "robust", order = 1, donut = -1,
-                      bandwidth = NULL, bin_bandwidth = NULL, covariate = NULL){
-
-  p <- list()
-  p$outcomes <- outcomes
-  p$running <- running
-  p$cutoff <- cutoff
-  p$vce <- vce
-  p$est <- est
-  p$order <- order
-  p$bandwidth <- bandwidth
-  p$bin_bandwidth <- bin_bandwidth
-  p$covariate <- covariate
-  p$donut <- donut
-
+get_rd_param <- function(outcomes, running, cutoff,
+                      donut = -1, bandwidth = NULL, covs = NULL, cluster = NULL,
+                      est = "robust", bin_bandidth_ratio = 1,
+                      est_param = list(vce = "hc1"), 
+                      plot_param = list(kernel = "triangular", p = 1)){
+  p <- as.list(environment())
   class(p) <- "easyrd_param"
-
   return(p)
 
 }
 
-# summary function for the simplerd --------------------------------------------
+# generics -------------------------------
 
-#' The result from easy rd
-setClass("easyrd_result")
-
-#' Summarize the result from easyrd
-#'
-#' @param object A easyrd_result object
 #' @export
-setMethod("summary", signature(object = "easyrd_result"), function(object){
-
+print.easyrd_result <- function(x,...){
   getstar <- function(p){ifelse(p < 0.01, "***", ifelse(p < 0.05, "**", ifelse(p < 0.1, "*", "")))}
-
-  dt <- object$estimate
-  dt[, spec := paste0(type, ": ", value)]
+  
+  dt <- copy(x$estimate)
+  dt[, spec := paste0(type, value)]
   dt[, sig := getstar(pvalue)]
-  for(sp in dt[, unique(spec)]){
-    cat(paste0(sp, "\n"))
-    print(dt[spec == sp,.(outcome, coef, se, pvalue, sig)], class = FALSE)
-    cat("\n")
+  
+  if(dt[, uniqueN(spec)] == 1){
+    print(dt[,.(outcome, coef, se, pvalue, sig)], class = FALSE)
+  } else {
+    t <- dt[, first(type)]
+    setorder(dt, outcome, value)
+    setnames(dt, "value", t)
+    cat("result with alternative", t, "\n")
+    for(out in dt[, unique(outcome)]){
+      cat(paste0(out, "\n"))
+      print(dt[outcome == out & type == t,.SD, .SDcols = c(t, "coef", "se", "pvalue", "sig")], class = FALSE)
+      cat("\n")
+    }
   }
 
-})
+  invisible(x)
+}
 
-#' Plot the result from easyrd
-#'
-#' @param x A easyrd_result object
 #' @export
-setMethod("plot", signature(x = "easyrd_result"), function(x){
+plot.easyrd_result <- function(x,...){
   if(!x$alt_type=="main"){
     return(plot_alt_rd(x$estimate))
   } else {
     return(plot_rd(x$plot_source))
   }
-  
-})
+}
+
+# deal with globals ---------
+
+NULL
+
+# quiets concerns of R CMD check re: the .'s that appear in pipelines and data.table variables
+utils::globalVariables(c("type", "value", "coef", "se", "part", "x", "y", "spec", "sig", "pvalue", ".", "outcome"))

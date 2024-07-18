@@ -6,7 +6,7 @@ y <- 5+3*x+x1+2*(x>=0)+rnorm(1000)
 y2 <- 5+3*x+x1+3*(x>=0)+rnorm(1000)
 dt <- data.table(x = x, y = y, x1 = x1, y2 = y2)
 
-p <- get_param(running = "x", outcomes = c("y", "y2"), cutoff = 0)
+p <- get_rd_param(running = "x", outcomes = c("y", "y2"), cutoff = 0)
 
 # easyrd basic ------------------------------------------------------------
 
@@ -40,30 +40,14 @@ expect_equal(class(plot_rd(results$plot_source[outcome == "y"])), c("gg", "ggplo
 
 rm(results)
 
-# param basic -----------------------------------------------------------------
-
-# Test that get_param returns a list with correct default values
-params <- get_param(
-  outcomes = c("test_score", "graduation_rate"),
-  running = "age",
-  cutoff = 18,
-  order = 2
-)
-
-expect_equal(typeof(params), "list")
-expect_equal(params$cutoff, 18) #specified
-expect_equal(params$vce, "hc1") #default
-expect_null(params$covariate) #default null
-expect_equal(params$order, 2) #specified non-default
-
 # plot ----------------------------------------
 
 results <- easyrd(dt, p)
 expect_equal(class(plot(results)), c("gg", "ggplot"))
-expect_stdout(summary(results), "outcome")
+expect_stdout(print(results), "outcome")
 
 alt_results <- easyrd(dt, p, alt_type = "cutoff", values = c(-0.1, 0.1))
 expect_equal(class(plot(alt_results)), c("gg", "ggplot"))
-expect_stdout(summary(alt_results), "outcome")
+expect_stdout(print(alt_results), "result")
 
 # summary --------------------------------------

@@ -1,4 +1,4 @@
-setwd("~/GitHub/easyrd")
+setwd("~/Documents/GitHub/easyrd")
 
 library(roxygen2)
 library(devtools)
@@ -14,10 +14,10 @@ y <- 5+3*x+x1+2*(x>=0)+rnorm(1000)
 y2 <- 5+3*x+x1+3*(x>=0)+rnorm(1000)
 dt <- data.table(x = x, y = y, x1 = x1, y2 = y2)
 
-p <- get_param(running = "x", outcomes = c("y", "y2"), cutoff = 0)
+p <- get_rd_param(running = "x", outcomes = c("y", "y2"), cutoff = 0,
+               plot_param = list(kernel = "triangular", p = 1, nbins = c(20, 20)))
 
 rd_result <- easyrd(dt, p)
-summary(rd_result)
 plot(rd_result)
 
 rd_result$plot$y

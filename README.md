@@ -7,11 +7,11 @@
 To install **easyrd** from GitHub, run the following script:
 
 ```
-# First, ensure devtools is installed
-# install.packages("devtools"); library(devtools)
+# First, ensure remotes is installed
+# install.packages("remotes"); library(remotes)
 
 # Install easyrd from GitHub
-devtools::install_github("TsaiLintung/easyrd")
+remotes::install_github("TsaiLintung/easyrd")
 ```
 
 # Usage
@@ -36,10 +36,12 @@ dt <- data.table(x = x, x2 = x2, y = y, y2 = y2, x0 = x0)
 outcomes <- c("y", "y2")
 running <- "x"
 cutoff <- 0
-params <- get_param(outcomes, running, cutoff)
+params <- get_rd_param(outcomes, running, cutoff)
 
 # Execute the main RD analysis
 rd_result <- easyrd(dt, params)
+#see the results!
+rd_result 
 ```
 
 # Features
@@ -70,12 +72,13 @@ donut_results <- easyrd(dt, params, alt_type = "donut", values = c(0.01, 0.02, 0
 bandwidth_results <- easyrd(dt, params, alt_type = "bandwidth", values = c(0.1, 0.2, 0.3))
 ```
 
-Result can be generated easily with `summary` and `plot`
+Result can be generated easily with `print` and `plot`
 
 ```
 plot(rd_result) #standard rd plot
-summary(rd_result) #result table
+print(rd_result) #result table
 plot(cutoff_results) #estimates with alternative specifications
+print(cutoff_results) #estimates with alternative specifications
 ```
 
 The source of RD plots can be saved separately for later customization
